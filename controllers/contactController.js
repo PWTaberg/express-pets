@@ -12,7 +12,7 @@ const sanitizeOptions = {
 
 exports.submitContact = async function (req, res, next) {
   if (req.body.secret.toUpperCase() !== "PUPPY") {
-    console.log("spam detected");
+    //console.log("spam detected");
     return res.json({ message: "Sorry!" });
   }
 
@@ -29,20 +29,21 @@ exports.submitContact = async function (req, res, next) {
   }
 
   if (!validator.isEmail(req.body.email)) {
-    console.log("invalid email detected");
+    //console.log("invalid email detected");
     return res.json({ message: "Sorry!" });
   }
 
   if (!ObjectId.isValid(req.body.petId)) {
-    console.log("invalid id detected");
+    //console.log("invalid id detected");
     return res.json({ message: "Sorry!" });
   }
 
+  // try / catch !!
   req.body.petId = new ObjectId(req.body.petId);
   const doesPetExist = await petsCollection.findOne({ _id: req.body.petId });
 
   if (!doesPetExist) {
-    console.log("pet does not exist!");
+    //console.log("pet does not exist!");
     return res.json({ message: "Sorry!" });
   }
 
@@ -100,7 +101,7 @@ exports.submitContact = async function (req, res, next) {
 
 exports.viewPetContacts = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    console.log("bad id");
+    //console.log("bad id");
     return res.redirect("/");
   }
 
@@ -109,7 +110,7 @@ exports.viewPetContacts = async (req, res) => {
   });
 
   if (!pet) {
-    console.log("pet does not exist");
+    //console.log("pet does not exist");
     return res.redirect("/");
   }
 
